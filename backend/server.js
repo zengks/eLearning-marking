@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from 'dotenv';
+import cookieParser from "cookie-parser";
 
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -16,7 +17,9 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/auth/users', userRoutes)
+app.use(cookieParser());
+
+app.use('/auth/users', userRoutes);
 
 app.use('/', (req, res) => {
     res.send('Server is ready')

@@ -67,8 +67,16 @@ const loginUser = expressAsyncHandler(async (req, res) => {
 // route POST /auth/users/logout
 // @access Public
 const logoutUser = expressAsyncHandler(async (req, res) => {
+    res.cookie('jwt', '', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== 'development',
+        expires: new Date(0),
+    });
+
+    console.log('You have successfully logged out.')
+
     res.status(200).json({
-        message: 'user logged out'
+        message: 'logged out',
     })
 });
 
@@ -76,18 +84,50 @@ const logoutUser = expressAsyncHandler(async (req, res) => {
 // route GET /auth/users/profile
 // @access Private (requires a token)
 const getUserProfile = expressAsyncHandler(async (req, res) => {
-    res.status(200).json({
-        message: 'get user profile'
-    })
+    // a protect feature is used inside userRoutes file to prevent accessing user profile data without logging in first. Without verifying jsonwebtoken, no user profile information will be passed through.
+
+    const userInfo = {
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        email: req.user.email,
+        isAdmin: req.user.isAdmin,
+    }
+
+    res.status(200).json(userInfo);
+
 });
 
 // @desc Update logged in user's profile
 // route PUT /auth/users/profile
 // @access Private (requires a token)
 const updateUserProfile = expressAsyncHandler(async (req, res) => {
-    res.status(200).json({
-        message: 'update user profile'
-    })
+
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+        user.firstName = req.body.firstName || user.firstName;
+        user.lastName = req.body.lastName || user.lastName;
+        user.isAdmin = req.body.isAdmin || user.isAdmin;
+
+        if (req.body.password) {
+            user.password = req.body.password;
+        }
+
+        const updatedUser = await user.save();
+
+        res.status(200).json({
+            _id: updatedUser._id,
+            firstName: updatedUser.firstName,
+            lastName: updatedUser.lastName,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+        })
+
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+
 });
 
 export {

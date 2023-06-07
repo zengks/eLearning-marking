@@ -1,5 +1,7 @@
 import express from "express";
 
+import protect from "../middleware/protectMiddleware.js";
+
 import {
     registerUser,
     loginUser,
@@ -16,7 +18,7 @@ userRoutes.post('/login', loginUser);
 userRoutes.post('/logout', logoutUser);
 userRoutes
     .route('/profile')
-    .get(getUserProfile)
-    .put(updateUserProfile)
+    .get(protect, getUserProfile)
+    .put(protect, updateUserProfile)
 
 export default userRoutes;
