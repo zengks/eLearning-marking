@@ -6,9 +6,35 @@ import User from "../models/userModel.js";
 // route POST /auth/users
 // @access Public
 const registerUser = expressAsyncHandler(async (req, res) => {
-    res.status(201).json({
-        message: 'Register user'
-    })
+
+    const { firstName, lastName, email, password, isAdmin } = req.body;
+
+    const userExisted = await User.findOne({ email });
+    if (userExisted) {
+        res.status(400);
+        throw new Error('User already exists');
+    }
+
+    const user = await User.create({
+        firstName,
+        lastName,
+        email,
+        password,
+        isAdmin,
+    });
+
+    if (user) {
+        res.status(201).json({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            isAdmin: user.isAdmin,
+        })
+    } else {
+        res.status(400);
+        throw new Error("Invalid user data");
+    }
 });
 
 // @desc log in an existing user
