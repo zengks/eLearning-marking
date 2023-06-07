@@ -11,6 +11,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     const { firstName, lastName, email, password, isAdmin } = req.body;
 
     const userExisted = await User.findOne({ email });
+    
     if (userExisted) {
         res.status(400);
         throw new Error('User already exists');
@@ -47,7 +48,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email })
 
-    if (user && (password === user.password)) {
+    if (user && (await user.comparePassword(password))) {
         console.log('You have successfully logged in.')
         generateToken(res, user._id);
         res.status(200).json({
