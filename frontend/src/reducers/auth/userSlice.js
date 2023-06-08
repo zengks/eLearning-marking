@@ -1,13 +1,13 @@
 import { splitApi } from "../splitApi";
 
-// const AUTH_URL = '/auth/users'
+const BASE_URL = '/auth/users'
 
 export const userSlice = splitApi.injectEndpoints({
     endpoints: (build) => ({
         register: build.mutation({
             query(body) {
                 return {
-                    url: '/register',
+                    url: `${BASE_URL}`,
                     method: 'POST',
                     body,
                 }
@@ -16,12 +16,12 @@ export const userSlice = splitApi.injectEndpoints({
         login: build.mutation({
             query(body) {
                 return {
-                    url: '/login',
+                    url: `${BASE_URL}/login`,
                     method: 'POST',
                     body,
                 }
             }
-        })
+        }),
     })
 })
 

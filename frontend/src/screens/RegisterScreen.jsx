@@ -1,5 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Container, Form, Button } from "react-bootstrap"
+import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { toast } from "react-toastify"
+
+import { setUserInfo } from "../reducers/auth/authSlice"
+import { useRegisterMutation } from "../reducers/auth/userSlice"
+import Loading from "../components/Loading"
 
 const RegisterScreen = () => {
   const [firstName, setFirstName] = useState("")
@@ -9,15 +16,51 @@ const RegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [isAdmin, setIsAdmin] = useState(false)
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const { userInfo } = useSelector((state) => state.auth)
+
+  const [register, { isLoading }] = useRegisterMutation()
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/")
+    }
+  }, [navigate, userInfo])
+
   const handleChange = (e) => {
     e.persist()
     e.target.value === "instructor" ? setIsAdmin(true) : setIsAdmin(false)
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (password !== confirmPassword) {
+      toast.warn("Passwords do not match")
+    } else {
+      try {
+        const res = await register({
+          firstName,
+          lastName,
+          email,
+          password,
+          isAdmin,
+        }).unwrap()
+        dispatch(setUserInfo({ ...res }))
+        navigate("/")
+        toast.success("Register successfully!")
+      } catch (error) {
+        console.log(error)
+        toast.error("Failed to register, please try again!")
+      }
+    }
+  }
+
   return (
     <Container>
       <h1>Sign In</h1>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label>First Name</Form.Label>
           <Form.Control
@@ -82,6 +125,7 @@ const RegisterScreen = () => {
             onChange={handleChange}
           />
         </Form.Group>
+        {isLoading && <Loading />}
         <Button type="submit" variant="primary" className="mt-3">
           Register
         </Button>
