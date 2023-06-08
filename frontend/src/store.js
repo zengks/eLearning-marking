@@ -1,7 +1,15 @@
-// import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 
-// const store = configureStore({
-    
-// })
+import authSlice from "./reducers/auth/authSlice";
+import { splitApi } from "./reducers/splitApi";
 
-// export default store;
+const store = configureStore({
+    reducer: {
+        auth: authSlice,
+        [splitApi.reducerPath]: splitApi.reducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(splitApi.middleware),
+    devTools: process.env.NODE_ENV !== 'production',
+})
+
+export default store;
