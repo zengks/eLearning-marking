@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container } from "react-bootstrap"
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
 import {
   FaSignInAlt,
@@ -6,13 +6,35 @@ import {
   FaUserPlus,
   FaUserAlt,
 } from "react-icons/fa"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
 import bcitLogo from "../assets/bcitLogo.png"
+import { useLogoutMutation } from "../reducers/auth/userSlice"
+import { logout } from "../reducers/auth/authSlice"
+
 import "../styles/header.css"
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth)
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const [logoutUser] = useLogoutMutation()
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser().unwrap()
+      dispatch(logout())
+      navigate("/")
+      toast.success("Logged out successfully!")
+    } catch (error) {
+      console.log(error)
+      toast.error("Failed to log out, please try again!")
+    }
+  }
 
   return (
     <header>
@@ -28,18 +50,20 @@ const Header = () => {
             <Nav className="ms-auto">
               {userInfo ? (
                 <>
-                  <LinkContainer to="/profile">
-                    <Nav.Link>
-                      <FaUserAlt />
-                      Profile
-                    </Nav.Link>
-                  </LinkContainer>
-                  <LinkContainer to="/logout">
-                    <Nav.Link>
+                  <NavDropdown
+                    title={`${userInfo.firstName} ${userInfo.lastName}`}
+                  >
+                    <LinkContainer to="/profile">
+                      <NavDropdown.Item>
+                        <FaUserAlt />
+                        Profile
+                      </NavDropdown.Item>
+                    </LinkContainer>
+                    <NavDropdown.Item onClick={handleLogout}>
                       <FaSignOutAlt />
                       Log Out
-                    </Nav.Link>
-                  </LinkContainer>
+                    </NavDropdown.Item>
+                  </NavDropdown>
                 </>
               ) : (
                 <>

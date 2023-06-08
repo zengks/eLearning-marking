@@ -22,7 +22,15 @@ export const userSlice = splitApi.injectEndpoints({
                 }
             }
         }),
+        logout: build.mutation({
+            query() {
+                return {
+                    url: `${BASE_URL}/logout`,
+                    method: 'POST',
+                }
+            }
+        })
     })
 })
 
-export const { useRegisterMutation, useLoginMutation } = userSlice;
+export const { useRegisterMutation, useLoginMutation, useLogoutMutation } = userSlice;

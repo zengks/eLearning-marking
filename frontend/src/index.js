@@ -12,8 +12,10 @@ import {
 import store from './store.js';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import ProtectRoute from './components/ProtectRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +23,9 @@ const router = createBrowserRouter(
       <Route index={true} path="/" element={<LoginScreen />} />
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
+      <Route path="" element={<ProtectRoute />}>
+        <Route path='/profile' element={<ProfileScreen />} />
+      </Route>
     </Route>
   )
 )
