@@ -1,17 +1,46 @@
 import { Form, Button } from "react-bootstrap"
+import { useState, useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { toast } from "react-toastify"
+
+import { useAddAnswerMutation } from "../reducers/assignment/studentAnswerSlice"
+import { submitAssignment } from "../reducers/assignment/assignmentSlice"
 
 import "../styles/question.css"
-import { useState } from "react"
 
 const MultipleChoice = ({ question, index }) => {
   const [choice, setChoice] = useState("")
   const [assignmentNumber, setAssignmentNumber] = useState(0)
   const [isA1Submitted, setIsA1Submitted] = useState(false)
 
-  const handleSubmit = (e) => {
+  const { userInfo } = useSelector((state) => state.auth)
+  const [addAnswer] = useAddAnswerMutation()
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    setAssignmentNumber((index + 1).toString())
+  }, [index])
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setAssignmentNumber(index + 1)
     setIsA1Submitted(true)
+    try {
+      const res = await addAnswer({
+        studentId: userInfo._id,
+        questionNumber: assignmentNumber,
+        answers: choice,
+        submitted: true,
+        score: "Not Marked Yet",
+      }).unwrap()
+      dispatch(submitAssignment({ ...res }))
+      toast.success(
+        `Assignment ${assignmentNumber} has been submitted successfully.`
+      )
+    } catch (error) {
+      console.log(error)
+      toast.error("Failed to submit.")
+    }
   }
 
   return (
