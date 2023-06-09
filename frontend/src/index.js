@@ -13,9 +13,11 @@ import store from './store.js';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import StudentScreen from './screens/StudentScreen';
+import InstructorScreen from './screens/InstructorScreen';
+import ProtectRoute from './components/ProtectRoute';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import ProtectRoute from './components/ProtectRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +25,8 @@ const router = createBrowserRouter(
       <Route index={true} path="/" element={<LoginScreen />} />
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
+      <Route path='/assignments' element={<StudentScreen />} />
+      <Route path='/instructor/assignments/' element={<InstructorScreen />} />
       <Route path="" element={<ProtectRoute />}>
         <Route path='/profile' element={<ProfileScreen />} />
       </Route>

@@ -1,0 +1,31 @@
+.question {
+    margin: 0 auto;
+    padding: 2rem;
+    width: 800px;
+}
+
+.assignment {
+    font-size: 1.7rem;
+    border-bottom: 1px solid rgb(58, 167, 201);
+    padding-bottom: .5rem;
+    font-weight: 400;
+}
+
+.title {
+    font-size: 1.3rem;
+}
+
+.options{
+    font-size: 1.2rem;
+    padding: .5rem 0;
+}
+
+.input-blank{
+    height: 4rem;
+    margin-bottom: 20px;
+}
+
+.input-format{
+    font-size: 1.2rem;
+    font-style: italic;
+}
