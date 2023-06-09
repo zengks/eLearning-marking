@@ -12,8 +12,14 @@ export const studentAnswerSlice = splitApi.injectEndpoints({
                     body,
                 }
             }
+        }),
+        getAssignments: build.query({
+            query: () => ({
+                url: `${BASE_URL}/assignments`,
+                method: 'GET'
+            })
         })
     })
 })
 
-export const { useAddAnswerMutation } = studentAnswerSlice;
+export const { useAddAnswerMutation, useGetAssignmentsQuery } = studentAnswerSlice;

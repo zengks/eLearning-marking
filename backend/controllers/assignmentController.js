@@ -33,6 +33,19 @@ const addAnswer = expressAsyncHandler(async (req, res) => {
     }
 })
 
+const getSubmittedAssignment = expressAsyncHandler(async (req, res) => {
+    const assignments = await StudentAnswer.find();
+    if (assignments) {
+        res.status(200).json({
+            submittedAssignment: assignments
+        })
+    } else {
+        res.status(401)
+        throw new Error("Failed to retrieve submitted assignments")
+    }
+})
+
 export {
     addAnswer,
+    getSubmittedAssignment,
 }

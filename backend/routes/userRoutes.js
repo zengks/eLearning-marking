@@ -6,7 +6,8 @@ import {
     loginUser,
     logoutUser,
     getUserProfile,
-    updateUserProfile
+    updateUserProfile,
+    getAllStudents
 } from '../controllers/userController.js';
 
 const userRoutes = express.Router();
@@ -19,5 +20,7 @@ userRoutes
     .route('/profile')
     .get(protect, getUserProfile)
     .put(protect, updateUserProfile)
+
+userRoutes.route('/students').get(protect, getAllStudents)
 
 export default userRoutes;

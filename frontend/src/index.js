@@ -16,6 +16,8 @@ import ProfileScreen from './screens/ProfileScreen';
 import StudentScreen from './screens/StudentScreen';
 import InstructorScreen from './screens/InstructorScreen';
 import ProtectRoute from './components/ProtectRoute';
+import InstructorProtect from './components/InstructorProtect';
+import MarkAssignmentScreen from './screens/MarkAssignmentScreen';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -25,11 +27,18 @@ const router = createBrowserRouter(
       <Route index={true} path="/" element={<LoginScreen />} />
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
-      <Route path='/assignments/:studentId' element={<StudentScreen />} />
-      <Route path='/instructor/assignments/' element={<InstructorScreen />} />
+
+      <Route path="" element={<InstructorProtect />}>
+        <Route path='/instructor/' element={<InstructorScreen />} />
+        <Route path='/instructor/assignments/:studentId' element={<MarkAssignmentScreen />} />
+
+      </Route>
+
       <Route path="" element={<ProtectRoute />}>
+        <Route path='/assignments/:studentId' element={<StudentScreen />} />
         <Route path='/profile' element={<ProfileScreen />} />
       </Route>
+
     </Route>
   )
 )

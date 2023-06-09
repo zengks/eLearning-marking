@@ -29,8 +29,14 @@ export const userSlice = splitApi.injectEndpoints({
                     method: 'POST',
                 }
             }
+        }),
+        getStudents: build.query({
+            query: () => ({
+                url: `${BASE_URL}/students`,
+                method: 'GET',
+            })
         })
     })
 })
 
-export const { useRegisterMutation, useLoginMutation, useLogoutMutation } = userSlice;
+export const { useRegisterMutation, useLoginMutation, useLogoutMutation, useGetStudentsQuery } = userSlice;

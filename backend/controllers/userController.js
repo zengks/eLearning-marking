@@ -11,7 +11,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     const { firstName, lastName, email, password, isAdmin } = req.body;
 
     const userExisted = await User.findOne({ email });
-    
+
     if (userExisted) {
         res.status(400);
         throw new Error('User already exists');
@@ -131,10 +131,27 @@ const updateUserProfile = expressAsyncHandler(async (req, res) => {
 
 });
 
+// @desc Get all students information from database
+// route GET /auth/users/students
+// @access Private (requires a token)
+const getAllStudents = expressAsyncHandler(async (req, res) => {
+    const students = await User.find({ isAdmin: false })
+    if (students) {
+        res.status(200).json({
+            students
+        })
+    } else {
+        res.status(404)
+        throw new Error('Failed to retrieve student users')
+    }
+
+})
+
 export {
     registerUser,
     loginUser,
     logoutUser,
     getUserProfile,
-    updateUserProfile
+    updateUserProfile,
+    getAllStudents,
 }
