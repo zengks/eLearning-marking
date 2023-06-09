@@ -1,4 +1,4 @@
-export const users = [
+const users = [
     {
         name: {
             firstName: "John",
@@ -32,3 +32,5 @@ export const users = [
         isAdmin: "true",
     },
 ]
+
+export default users;

@@ -29,3 +29,9 @@
     font-size: 1.2rem;
     font-style: italic;
 }
+
+.studentButton {
+   display: flex;
+   justify-content: right;
+   align-items: right;
+}
