@@ -24,6 +24,8 @@ const MultipleSelect = ({ question, index }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (selection.length === 0) {
+    }
     setIsA2Submitted(true)
     try {
       const res = await addAnswer({
@@ -69,7 +71,11 @@ const MultipleSelect = ({ question, index }) => {
         ))}
       </Form.Group>
       <div className="studentButton">
-        {isA2Submitted ? (
+        {selection.length === 0 ? (
+          <Button type="submit" variant="primary" className="mt-3" disabled>
+            Submit Now
+          </Button>
+        ) : isA2Submitted ? (
           <Button type="submit" variant="primary" className="mt-3" disabled>
             Submitted
           </Button>

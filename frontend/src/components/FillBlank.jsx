@@ -42,6 +42,12 @@ const FillBlank = ({ question, index }) => {
       toast.error("Failed to submit.")
     }
   }
+
+  const checkAnswerFormat = (text) => {
+    const pattern = /^[a-zA-Z]+\s[a-zA-Z]+\s[0-9]+$/g
+    return pattern.test(text) ? true : false
+  }
+
   return (
     <Form className="question" onSubmit={handleSubmit}>
       <p className="assignment">Assignment {index + 1}</p>
@@ -66,7 +72,11 @@ const FillBlank = ({ question, index }) => {
         </div>
       </Form.Group>
       <div className="studentButton">
-        {isA3Submitted ? (
+        {!checkAnswerFormat(answer) ? (
+          <Button type="submit" variant="primary" className="mt-3" disabled>
+            Submit Now
+          </Button>
+        ) : isA3Submitted ? (
           <Button type="submit" variant="primary" className="mt-3" disabled>
             Submitted
           </Button>

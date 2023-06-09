@@ -63,7 +63,11 @@ const MultipleChoice = ({ question, index }) => {
         ))}
       </Form.Group>
       <div className="studentButton">
-        {isA1Submitted ? (
+        {choice === "" ? (
+          <Button type="submit" variant="primary" className="mt-3" disabled>
+            Submit Now
+          </Button>
+        ) : isA1Submitted ? (
           <Button type="submit" variant="primary" className="mt-3" disabled>
             Submitted
           </Button>

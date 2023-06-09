@@ -20,8 +20,8 @@ const LoginScreen = () => {
   const [login, { isLoading }] = useLoginMutation()
 
   useEffect(() => {
-    if (userInfo) {
-      navigate("/")
+    if (userInfo && !userInfo.isAdmin) {
+      navigate(`/assignments/${userInfo._id}`)
     }
   }, [navigate, userInfo])
 
