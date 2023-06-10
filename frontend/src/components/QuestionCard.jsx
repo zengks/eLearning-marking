@@ -1,20 +1,24 @@
 import { Button } from "react-bootstrap"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, Form } from "react-bootstrap"
 import { toast } from "react-toastify"
 import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
 
 import { useUpdateAssignmentMutation } from "../reducers/assignment/studentAnswerSlice"
 import { submitAssignment } from "../reducers/assignment/assignmentSlice"
 
-const QuestionCard = ({ question, studentId }) => {
-  const [score, setScore] = useState(0)
+const QuestionCard = ({ question }) => {
+  const [score, setScore] = useState()
+  const [submitted, setSubmitted] = useState(false)
 
   const [updateAssignment] = useUpdateAssignmentMutation()
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
+  const checkScore = (number) => {
+    let pattern = /^([0-9]|[1-9][0-9]|100)$/
+    return pattern.test(number) ? true : false
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -28,9 +32,7 @@ const QuestionCard = ({ question, studentId }) => {
         submitted: question.submitted,
         score: score.toString(),
       }).unwrap()
-      console.log(res)
       dispatch(submitAssignment({ ...res }))
-    //   navigate(`/assignments/${question._id}`)
       toast.success("Score updated")
     } catch (error) {
       console.log(error)
@@ -59,14 +61,28 @@ const QuestionCard = ({ question, studentId }) => {
               type="number"
               value={score}
               placeholder="Enter score"
-              min={0}
-              max={100}
               onChange={(e) => setScore(e.target.value)}
             />
           </Form.Group>
-          <Button type="submit" variant="primary" className="confirmBtn">
-            Confirm
-          </Button>
+          {checkScore(score) ? (
+            <Button type="submit" variant="primary" className="confirmBtn">
+              Confirm
+            </Button>
+          ) : (
+            <>
+              <p className="mt-3">
+                **ONLY non-negative numerical value in the range of 0-100**
+              </p>
+              <Button
+                type="submit"
+                variant="primary"
+                className="confirmBtn"
+                disabled
+              >
+                Confirm
+              </Button>
+            </>
+          )}
         </Form>
       </Card>
     </>
