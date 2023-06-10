@@ -26,7 +26,8 @@ const addAnswer = expressAsyncHandler(async (req, res) => {
                 questionNumber: assignment.questionNumber,
                 description: assignment.description,
                 answers: assignment.answers,
-                submitted: assignment.submitted
+                submitted: assignment.submitted,
+                score: assignment.score,
             })
         }
     } else {

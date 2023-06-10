@@ -3,30 +3,43 @@ import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { useSelector, useDispatch } from "react-redux"
 
+import { useGetAssignmentsQuery } from "../reducers/assignment/studentAnswerSlice"
 import { useAddAnswerMutation } from "../reducers/assignment/studentAnswerSlice"
 import { submitAssignment } from "../reducers/assignment/assignmentSlice"
 
 import "../styles/question.css"
 
-const MultipleSelect = ({ question, index }) => {
+const MultipleSelect = ({ question, index, studentId }) => {
   const [selection, setSelection] = useState([])
-  const [assignmentNumber, setAssignmentNumber] = useState("")
-  const [isA2Submitted, setIsA2Submitted] = useState(false)
+  const [assignmentNumber, setAssignmentNumber] = useState(0)
+  const [curScore, setCurScore] = useState("N/A")
 
   const { userInfo } = useSelector((state) => state.auth)
+  const { data: assignments } = useGetAssignmentsQuery()
   const [addAnswer] = useAddAnswerMutation()
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     setAssignmentNumber((index + 1).toString())
-  }, [index])
+    if (assignments) {
+      const submitted = assignments.submittedAssignment.filter(
+        (a) => a.studentId === studentId
+      )
+      const q = submitted.filter(
+        (each) => each.questionNumber === `Assignment ${index + 1}`
+      )
+      if (q.length > 0) {
+        setCurScore(q[0].score)
+        setSelection(q[0].answers)
+      }
+    }
+  }, [assignments, index, studentId])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (selection.length === 0) {
     }
-    setIsA2Submitted(true)
     try {
       const res = await addAnswer({
         studentId: userInfo._id,
@@ -37,6 +50,7 @@ const MultipleSelect = ({ question, index }) => {
         score: "Not Marked Yet",
       }).unwrap()
       dispatch(submitAssignment({ ...res }))
+      setCurScore(res.score)
       toast.success(
         `Assignment ${assignmentNumber} has been submitted successfully.`
       )
@@ -68,20 +82,26 @@ const MultipleSelect = ({ question, index }) => {
             label={item}
             className="options"
             onChange={handleChange}
+            checked={selection.includes(item)}
           />
         ))}
       </Form.Group>
       <div className="studentButton">
-        {selection.length === 0 ? (
-          <Button type="submit" variant="primary" className="mt-3" disabled>
-            Submit Now
-          </Button>
-        ) : isA2Submitted ? (
+        <p className="score">
+          <strong>Score: </strong>
+          {curScore}
+        </p>
+        {curScore === "Not Marked Yet" || !isNaN(curScore) ? (
           <Button type="submit" variant="primary" className="mt-3" disabled>
             Submitted
           </Button>
         ) : (
-          <Button type="submit" variant="primary" className="mt-3">
+          <Button
+            type="submit"
+            variant="primary"
+            className="mt-3"
+            disabled={selection.length === 0}
+          >
             Submit Now
           </Button>
         )}

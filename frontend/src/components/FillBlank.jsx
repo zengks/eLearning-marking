@@ -3,28 +3,43 @@ import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { toast } from "react-toastify"
 
+import { useGetAssignmentsQuery } from "../reducers/assignment/studentAnswerSlice"
 import { useAddAnswerMutation } from "../reducers/assignment/studentAnswerSlice"
 import { submitAssignment } from "../reducers/assignment/assignmentSlice"
 
 import "../styles/question.css"
 
-const FillBlank = ({ question, index }) => {
+const FillBlank = ({ question, index, studentId }) => {
   const [answer, setAnswer] = useState("")
   const [assignmentNumber, setAssignmentNumber] = useState(0)
-  const [isA3Submitted, setIsA3Submitted] = useState(false)
+  const [submittedAssignment, setSubmittedAssignment] = useState([])
+  const [curScore, setCurScore] = useState("N/A")
 
   const { userInfo } = useSelector((state) => state.auth)
+  const { data: assignments } = useGetAssignmentsQuery()
   const [addAnswer] = useAddAnswerMutation()
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     setAssignmentNumber((index + 1).toString())
-  }, [index])
+    if (assignments) {
+      const submitted = assignments.submittedAssignment.filter(
+        (a) => a.studentId === studentId
+      )
+      const q = submitted.filter(
+        (each) => each.questionNumber === `Assignment ${index + 1}`
+      )
+      if (q.length > 0) {
+        setCurScore(q[0].score)
+        setSubmittedAssignment(q[0])
+        setAnswer(q[0].answers)
+      }
+    }
+  }, [assignments, index, studentId])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsA3Submitted(true)
     try {
       const res = await addAnswer({
         studentId: userInfo._id,
@@ -35,6 +50,7 @@ const FillBlank = ({ question, index }) => {
         score: "Not Marked Yet",
       }).unwrap()
       dispatch(submitAssignment({ ...res }))
+      setCurScore(res.score)
       toast.success(
         `Assignment ${assignmentNumber} has been submitted successfully.`
       )
@@ -58,7 +74,11 @@ const FillBlank = ({ question, index }) => {
         </Form.Label>
         <Form.Control
           type="text"
-          value={answer}
+          value={
+            submittedAssignment.length > 0
+              ? submittedAssignment[0].answers
+              : answer
+          }
           name="answer"
           placeholder="Type your answer here"
           onChange={(e) => setAnswer(e.target.value)}
@@ -73,16 +93,21 @@ const FillBlank = ({ question, index }) => {
         </div>
       </Form.Group>
       <div className="studentButton">
-        {!checkAnswerFormat(answer) ? (
-          <Button type="submit" variant="primary" className="mt-3" disabled>
-            Submit Now
-          </Button>
-        ) : isA3Submitted ? (
+        <p className="score">
+          <strong>Score: </strong>
+          {curScore}
+        </p>
+        {curScore === "Not Marked Yet" || !isNaN(curScore) ? (
           <Button type="submit" variant="primary" className="mt-3" disabled>
             Submitted
           </Button>
         ) : (
-          <Button type="submit" variant="primary" className="mt-3">
+          <Button
+            type="submit"
+            variant="primary"
+            className="mt-3"
+            disabled={!checkAnswerFormat(answer)}
+          >
             Submit Now
           </Button>
         )}
