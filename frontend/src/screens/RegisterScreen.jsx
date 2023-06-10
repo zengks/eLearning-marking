@@ -24,8 +24,8 @@ const RegisterScreen = () => {
   const [register, { isLoading }] = useRegisterMutation()
 
   useEffect(() => {
-    if (userInfo) {
-      navigate("/")
+    if (userInfo && !userInfo.isAdmin) {
+      navigate("/login")
     }
   }, [navigate, userInfo])
 
@@ -58,9 +58,9 @@ const RegisterScreen = () => {
   }
 
   return (
-    <Container>
-      <h1>Sign In</h1>
-      <Form onSubmit={handleSubmit}>
+    <Container className="d-flex flex-column align-items-center">
+      <h1>Enter New Student's Information</h1>
+      <Form onSubmit={handleSubmit} className="w-25 mt-3">
         <Form.Group>
           <Form.Label>First Name</Form.Label>
           <Form.Control

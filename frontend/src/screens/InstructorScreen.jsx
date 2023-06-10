@@ -21,10 +21,15 @@ const InstructorScreen = () => {
 
   return (
     <Container>
-      <Row className="justify-content-md-center mt-5">
+      <LinkContainer to={`/register`}>
+        <Button className="my-4" variant="primary">
+          Add a new student
+        </Button>
+      </LinkContainer>
+      <Row className="justify-content-md-center">
         {allStudents.map((student) => (
           <Col sm={12} md={6} key={student._id}>
-            <Card>
+            <Card className="my-3 mx-2">
               <Card.Body>
                 <Card.Title>
                   Name: {`${student.firstName} ${student.lastName}`}
@@ -42,6 +47,7 @@ const InstructorScreen = () => {
                     }
                   })}
                 </ListGroup>
+
                 <LinkContainer to={`/instructor/assignments/${student._id}`}>
                   <Button className="my-3" variant="primary">
                     Start Marking

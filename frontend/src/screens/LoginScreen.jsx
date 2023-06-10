@@ -22,6 +22,8 @@ const LoginScreen = () => {
   useEffect(() => {
     if (userInfo && !userInfo.isAdmin) {
       navigate(`/assignments/${userInfo._id}`)
+    } else if (userInfo && userInfo.isAdmin) {
+      navigate(`/instructor`)
     }
   }, [navigate, userInfo])
 
@@ -38,9 +40,9 @@ const LoginScreen = () => {
   }
 
   return (
-    <Container>
-      <h1>Sign In</h1>
-      <Form onSubmit={handleSubmit}>
+    <Container className="d-flex flex-column align-items-center">
+      <h1 className="mt-3">Sign In</h1>
+      <Form onSubmit={handleSubmit} className="w-25 mt-3">
         <Form.Group>
           <Form.Label>BCIT Email</Form.Label>
           <Form.Control

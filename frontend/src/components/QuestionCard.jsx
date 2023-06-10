@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Card, Form } from "react-bootstrap"
 import { toast } from "react-toastify"
 import { useDispatch } from "react-redux"
@@ -7,9 +7,10 @@ import { useDispatch } from "react-redux"
 import { useUpdateAssignmentMutation } from "../reducers/assignment/studentAnswerSlice"
 import { submitAssignment } from "../reducers/assignment/assignmentSlice"
 
+import "../styles/questionCard.css"
+
 const QuestionCard = ({ question }) => {
   const [score, setScore] = useState()
-  const [submitted, setSubmitted] = useState(false)
 
   const [updateAssignment] = useUpdateAssignmentMutation()
 
@@ -44,12 +45,14 @@ const QuestionCard = ({ question }) => {
       <Card className="answerCard">
         <Card.Body>
           <Card.Title>{question.questionNumber}</Card.Title>
-          {question._id}
           <Card.Subtitle className="description">
             {question.description}
           </Card.Subtitle>
           <Card.Text className="studentAnswer">
-            <strong>Student Answers</strong>: {question.answers}
+            <strong>Student's answer:</strong>
+          </Card.Text>
+          <Card.Text className="border border-primary p-2">
+            {question.answers}
           </Card.Text>
         </Card.Body>
         <Form className="form" onSubmit={handleSubmit}>

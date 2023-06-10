@@ -9,8 +9,6 @@ import { useUpdateAssignmentMutation } from "../reducers/assignment/studentAnswe
 
 import QuestionCard from "../components/QuestionCard"
 
-import "../styles/markAssignmentScreen.css"
-
 const MarkAssignmentScreen = () => {
   const [studentAssignments, setStudentAssignments] = useState([])
   const { studentId } = useParams()
@@ -27,9 +25,17 @@ const MarkAssignmentScreen = () => {
 
   return (
     <Container>
-      {studentAssignments.map((each) => (
-        <QuestionCard question={each} key={each._id} studentId />
-      ))}
+      {studentAssignments.length === 0 ? (
+        <h2 className="text-center mt-5">
+          No submitted assignment yet... Check back later
+        </h2>
+      ) : (
+        <>
+          {studentAssignments.map((each) => (
+            <QuestionCard question={each} key={each._id} studentId />
+          ))}
+        </>
+      )}
     </Container>
   )
 }

@@ -19,7 +19,6 @@ userRoutes.post('/logout', logoutUser);
 userRoutes
     .route('/profile')
     .get(protect, getUserProfile)
-    .put(protect, updateUserProfile)
 
 userRoutes.route('/students').get(protect, getAllStudents)
 

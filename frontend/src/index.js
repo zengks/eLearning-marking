@@ -18,6 +18,7 @@ import InstructorScreen from './screens/InstructorScreen';
 import ProtectRoute from './components/ProtectRoute';
 import InstructorProtect from './components/InstructorProtect';
 import MarkAssignmentScreen from './screens/MarkAssignmentScreen';
+import PageNotFound from './screens/PageNotFound';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -26,12 +27,11 @@ const router = createBrowserRouter(
     <Route path='/' element={<App />}>
       <Route index={true} path="/" element={<LoginScreen />} />
       <Route path='/login' element={<LoginScreen />} />
-      <Route path='/register' element={<RegisterScreen />} />
 
       <Route path="" element={<InstructorProtect />}>
-        <Route path='/instructor/' element={<InstructorScreen />} />
+        <Route path='/register' element={<RegisterScreen />} />
+        <Route path='/instructor' element={<InstructorScreen />} />
         <Route path='/instructor/assignments/:studentId' element={<MarkAssignmentScreen />} />
-
       </Route>
 
       <Route path="" element={<ProtectRoute />}>
@@ -39,6 +39,7 @@ const router = createBrowserRouter(
         <Route path='/profile' element={<ProfileScreen />} />
       </Route>
 
+      <Route path="*" element={<PageNotFound />} />
     </Route>
   )
 )

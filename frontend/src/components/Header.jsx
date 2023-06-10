@@ -1,10 +1,10 @@
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
 import {
-  FaSignInAlt,
   FaSignOutAlt,
   FaUserPlus,
   FaUserAlt,
+  FaLayerGroup,
 } from "react-icons/fa"
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
@@ -50,6 +50,22 @@ const Header = () => {
             <Nav className="ms-auto">
               {userInfo ? (
                 <>
+                  {userInfo.isAdmin ? (
+                    <LinkContainer to="/instructor">
+                      <Nav.Link>
+                        <FaLayerGroup />
+                        Students
+                      </Nav.Link>
+                    </LinkContainer>
+                  ) : (
+                    <LinkContainer to={`/assignments/${userInfo._id}`}>
+                      <Nav.Link>
+                        <FaUserPlus />
+                        Assignment
+                      </Nav.Link>
+                    </LinkContainer>
+                  )}
+
                   <NavDropdown
                     title={`${userInfo.firstName} ${userInfo.lastName}`}
                   >
@@ -67,12 +83,6 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <LinkContainer to="/register">
-                    <Nav.Link>
-                      <FaSignInAlt />
-                      Register
-                    </Nav.Link>
-                  </LinkContainer>
                   <LinkContainer to="/login">
                     <Nav.Link>
                       <FaUserPlus />
