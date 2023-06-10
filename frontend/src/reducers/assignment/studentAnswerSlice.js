@@ -18,8 +18,17 @@ export const studentAnswerSlice = splitApi.injectEndpoints({
                 url: `${BASE_URL}/assignments`,
                 method: 'GET'
             })
+        }),
+        updateAssignment: build.mutation({
+            query(assignment) {
+                return {
+                    url: `${BASE_URL}/assignments/${assignment._id}`,
+                    method: 'PUT',
+                    body: assignment,
+                }
+            }
         })
     })
 })
 
-export const { useAddAnswerMutation, useGetAssignmentsQuery } = studentAnswerSlice;
+export const { useAddAnswerMutation, useGetAssignmentsQuery, useUpdateAssignmentMutation } = studentAnswerSlice;

@@ -4,6 +4,7 @@ const initialState = {
     submittedAssignment: {
         studentId: "",
         questionNumber: "",
+        description: "",
         answers: "",
         submitted: false,
         score: "Not Marked Yet",

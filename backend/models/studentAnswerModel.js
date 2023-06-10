@@ -9,6 +9,10 @@ const studentAnswerSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        required: true,
+    },
     answers: {
         type: String,
         required: true,

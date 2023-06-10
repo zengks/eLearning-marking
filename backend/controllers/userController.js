@@ -144,7 +144,6 @@ const getAllStudents = expressAsyncHandler(async (req, res) => {
         res.status(404)
         throw new Error('Failed to retrieve student users')
     }
-
 })
 
 export {

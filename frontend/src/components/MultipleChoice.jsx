@@ -29,6 +29,7 @@ const MultipleChoice = ({ question, index }) => {
       const res = await addAnswer({
         studentId: userInfo._id,
         questionNumber: assignmentNumber,
+        description: question.description,
         answers: choice,
         submitted: true,
         score: "Not Marked Yet",
