@@ -26,9 +26,9 @@ const InstructorScreen = () => {
           Add a new student
         </Button>
       </LinkContainer>
-      <Row className="justify-content-md-center">
+      <Row className="justify-content-start">
         {allStudents.map((student) => (
-          <Col sm={12} md={6} key={student._id}>
+          <Col sm={12} lg={4} key={student._id}>
             <Card className="my-3 mx-2">
               <Card.Body>
                 <Card.Title>

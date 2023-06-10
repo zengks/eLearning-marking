@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap"
+import { Col, Container, Row } from "react-bootstrap"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 
@@ -27,11 +27,13 @@ const MarkAssignmentScreen = () => {
           No submitted assignment yet... Check back later
         </h2>
       ) : (
-        <>
-          {studentAssignments.map((each) => (
-            <QuestionCard question={each} key={each._id} studentId />
-          ))}
-        </>
+        <Row>
+          <Col sm={12}>
+            {studentAssignments.map((each) => (
+              <QuestionCard question={each} key={each._id} studentId />
+            ))}
+          </Col>
+        </Row>
       )}
     </Container>
   )

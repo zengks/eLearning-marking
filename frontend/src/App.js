@@ -12,7 +12,7 @@ function App() {
   return (
     <>
       <Header />
-      <ToastContainer position='top-center' />
+      <ToastContainer position='top-center' autoClose={2500} />
       <Container>
         <Outlet />
       </Container>

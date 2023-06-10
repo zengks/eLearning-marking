@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Container } from "react-bootstrap"
+import { Container, Row, Col } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 
@@ -22,39 +22,47 @@ const StudentScreen = () => {
 
   return (
     <Container>
-      {questions.map((q, index) => {
-        switch (q.type) {
-          case "multiple-choice":
-            return (
-              <div key={index}>
-                <MultipleChoice
-                  question={q}
-                  index={index}
-                  studentId={studentId}
-                />
-              </div>
-            )
-          case "multiple-select":
-            return (
-              <div key={index}>
-                <MultipleSelect
-                  question={q}
-                  index={index}
-                  studentId={studentId}
-                />
-              </div>
-            )
-          case "fill-blank":
-            return (
-              <div key={index}>
-                <FillBlank question={q} index={index} studentId={studentId} />
-              </div>
-            )
-          default:
-            break
-        }
-        return 0
-      })}
+      <Row>
+        <Col sm={12}>
+          {questions.map((q, index) => {
+            switch (q.type) {
+              case "multiple-choice":
+                return (
+                  <div key={index}>
+                    <MultipleChoice
+                      question={q}
+                      index={index}
+                      studentId={studentId}
+                    />
+                  </div>
+                )
+              case "multiple-select":
+                return (
+                  <div key={index}>
+                    <MultipleSelect
+                      question={q}
+                      index={index}
+                      studentId={studentId}
+                    />
+                  </div>
+                )
+              case "fill-blank":
+                return (
+                  <div key={index}>
+                    <FillBlank
+                      question={q}
+                      index={index}
+                      studentId={studentId}
+                    />
+                  </div>
+                )
+              default:
+                break
+            }
+            return 0
+          })}
+        </Col>
+      </Row>
     </Container>
   )
 }

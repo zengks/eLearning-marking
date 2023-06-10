@@ -23,7 +23,6 @@ const QuestionCard = ({ question }) => {
   }
 
   useEffect(() => {
-    console.log(question)
     let qScore = localStorage.getItem(question._id)
     if (qScore) {
       setMarked(true)
@@ -54,7 +53,6 @@ const QuestionCard = ({ question }) => {
     }
   }
 
-  console.log("marked", marked)
   return (
     <>
       <Card className="answerCard">
