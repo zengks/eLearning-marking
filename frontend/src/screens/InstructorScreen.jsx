@@ -17,7 +17,7 @@ const InstructorScreen = () => {
       setAllStudents(students.students)
       setaAllSubmittedAssignments(assignments.submittedAssignment)
     }
-  }, [assignments, students])
+  }, [assignments, students, allStudents.length])
 
   return (
     <Container>
@@ -27,6 +27,9 @@ const InstructorScreen = () => {
         </Button>
       </LinkContainer>
       <Row className="justify-content-start">
+        {allStudents.length === 0 && (
+          <h2>No students found...Try adding a new student.</h2>
+        )}
         {allStudents.map((student) => (
           <Col sm={12} lg={4} key={student._id}>
             <Card className="my-3 mx-2">

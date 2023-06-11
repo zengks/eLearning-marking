@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
 import { Container, Form, Button } from "react-bootstrap"
-import { useNavigate } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import { redirect, useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
 import { toast } from "react-toastify"
 
-import { setUserInfo } from "../reducers/auth/authSlice"
 import { useRegisterMutation } from "../reducers/auth/userSlice"
 import Loading from "../components/Loading"
 
@@ -17,7 +16,6 @@ const RegisterScreen = () => {
   const [isAdmin, setIsAdmin] = useState(false)
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   const { userInfo } = useSelector((state) => state.auth)
 
@@ -40,15 +38,14 @@ const RegisterScreen = () => {
       toast.warn("Passwords do not match")
     } else {
       try {
-        const res = await register({
+        await register({
           firstName,
           lastName,
           email,
           password,
           isAdmin,
         }).unwrap()
-        dispatch(setUserInfo({ ...res }))
-        navigate("/")
+        navigate("/instructor")
         toast.success("Register successfully!")
       } catch (error) {
         console.log(error)
