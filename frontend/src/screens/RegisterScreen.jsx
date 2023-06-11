@@ -55,9 +55,9 @@ const RegisterScreen = () => {
   }
 
   return (
-    <Container className="d-flex flex-column align-items-center">
-      <h1>Enter New Student's Information</h1>
-      <Form onSubmit={handleSubmit} className="w-25 mt-3">
+    <Container style={{ width: "500px", margin: "2rem auto" }}>
+      <h2>Enter New Student's Information</h2>
+      <Form onSubmit={handleSubmit} className="mt-3">
         <Form.Group>
           <Form.Label>First Name</Form.Label>
           <Form.Control

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Container, Form, Button } from "react-bootstrap"
+import { Container, Form, Button, Row, Col } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
@@ -40,32 +40,36 @@ const LoginScreen = () => {
   }
 
   return (
-    <Container className="d-flex flex-column align-items-center">
-      <h1 className="mt-3">Sign In</h1>
-      <Form onSubmit={handleSubmit} className="w-25 mt-3">
-        <Form.Group>
-          <Form.Label>BCIT Email</Form.Label>
-          <Form.Control
-            type="email"
-            value={email}
-            placeholder="Enter email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            placeholder="Enter password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-        {isLoading && <Loading />}
-        <Button type="submit" variant="primary" className="mt-3">
-          Sign In
-        </Button>
-      </Form>
+    <Container style={{ width: "500px", margin: "2rem auto" }}>
+      <Row>
+        <Col sm={12}>
+          <h1 className="mt-3">Sign In</h1>
+          <Form onSubmit={handleSubmit} className="mt-5">
+            <Form.Group>
+              <Form.Label>BCIT Email</Form.Label>
+              <Form.Control
+                type="email"
+                value={email}
+                placeholder="Enter email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                placeholder="Enter password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+            {isLoading && <Loading />}
+            <Button type="submit" variant="primary" className="mt-3">
+              Sign In
+            </Button>
+          </Form>
+        </Col>
+      </Row>
     </Container>
   )
 }

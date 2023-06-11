@@ -1,0 +1,63 @@
+version: "3.8"
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:4.4.2-bionic
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=zengks
+      - MONGO_INITDB_ROOT_PASSWORD=zengks123
+      - MONGO_INITDB_DATABASE=marking
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - data:/data/db
+    networks:
+      - node-network
+
+  backend:
+    container_name: project-backend
+    restart: unless-stopped
+    build:
+      context: /
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    environment:
+      MONGO_URI: mongodb+srv://zengks:zengks123@marking.metodsd.mongodb.net/marking?retryWrites=true&w=majority
+      JWT_SECRET: abc123
+    volumes:
+      - logs:/server/logs
+      - ./backend:/server
+      - /server/node_modules
+    depends_on:
+      - mongo
+    networks:
+      - node-network
+    
+  frontend:
+    container_name: project-frontend
+    image: frontend
+    stdin_open: true
+    tty: true
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    links:
+      - mongo
+    volumes:
+      - ./frontend/src:/app/src
+    depends_on:
+      - backend
+    networks:
+      - node-network
+
+volumes:
+  data:
+  logs:
+
+networks:
+  node-network:
+    driver: bridge

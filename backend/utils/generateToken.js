@@ -18,7 +18,10 @@ const generateToken = (res, userId) => {
         maxAge: 7 * 24 * 3600 * 1000,
 
         // some protection against cross-site request forgery attacks (CSRF)
-        sameSite: 'strict'
+        // sameSite: 'strict',
+        // sameSite: 'none',
+
+        proxy: true,
     })
 }
 
