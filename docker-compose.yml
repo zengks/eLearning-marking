@@ -6,7 +6,6 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=zengks
       - MONGO_INITDB_ROOT_PASSWORD=zengks123
-      - MONGO_INITDB_DATABASE=marking
     ports:
       - 27017:27017
     restart: always
@@ -24,6 +23,8 @@ services:
     ports:
       - 5000:5000
     environment:
+      NODE_ENV: development
+      PORT: 5000
       MONGO_URI: mongodb+srv://zengks:zengks123@marking.metodsd.mongodb.net/marking?retryWrites=true&w=majority
       JWT_SECRET: abc123
     volumes:
