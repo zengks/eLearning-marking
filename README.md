@@ -14,7 +14,7 @@ Commands:
 
 ## Stop the System
 
-`docker compose down`
+`docker-compose down`
 
 ## NPM Version
 
@@ -27,9 +27,3 @@ If not using Docker, you need to add a JWT_SECRET in .env to connect to MongoDB.
 ## Frontend-Side Usage (PORT: 3000)
 
 If not using Docker, you need to edit the package.json in /frontend folder, to change "proxy" to your "localhost:5000" or other server-end of your choice.
-
-## Project Structure
-
-```bash
-
-```
