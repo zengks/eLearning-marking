@@ -50,10 +50,8 @@ const getSubmittedAssignment = expressAsyncHandler(async (req, res) => {
 
 const updateSubmittedAssignment = expressAsyncHandler(async (req, res) => {
     const { assignmentId } = req.params
-    console.log('assignment ID: ', assignmentId)
-    const assignment = await StudentAnswer.findById(assignmentId)
 
-    console.log('found: ', assignment)
+    const assignment = await StudentAnswer.findById(assignmentId)
 
     if (assignment) {
         assignment.studentId = req.body.studentId || assignment.studentId
