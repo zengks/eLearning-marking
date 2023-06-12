@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Container, Form, Button } from "react-bootstrap"
-import { redirect, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { toast } from "react-toastify"
 
