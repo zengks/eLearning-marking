@@ -8,8 +8,6 @@ This web app developed using MERN stack, and allows one instructor to view his/h
 
 \*Note: Current version only runs in development node environment
 
-Commands:
-
 `docker-compose up`
 
 ## Stop the System
@@ -27,3 +25,21 @@ If not using Docker, you need to add a JWT_SECRET in .env to connect to MongoDB.
 ## Frontend-Side Usage (PORT: 3000)
 
 If not using Docker, you need to edit the package.json in /frontend folder, to change "proxy" to your "localhost:5000" or other server-end of your choice.
+
+## Mock Users
+
+### Instructor
+
+`Email:` doriswilson@bcit.ca
+`Password:` zengks123
+
+### Students
+
+`Email:` margaerytyrell@bcit.ca
+`Password:` zengks123
+
+`Email:` johnsnow@bcit.ca
+`Password:` zengks123
+
+`Email:` johnsnow@bcit.ca
+`Password:` zengks123
