@@ -11,7 +11,8 @@ export const userSlice = splitApi.injectEndpoints({
                     method: 'POST',
                     body,
                 }
-            }
+            },
+            invalidatesTags: ['User']
         }),
         login: build.mutation({
             query(body) {
@@ -34,7 +35,8 @@ export const userSlice = splitApi.injectEndpoints({
             query: () => ({
                 url: `${BASE_URL}/students`,
                 method: 'GET',
-            })
+            }),
+            providesTags: ['User']
         })
     })
 })

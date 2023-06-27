@@ -4,5 +4,6 @@ export const splitApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: '',
     }),
+    tagTypes: ['User', 'Assignment'],
     endpoints: () => ({})
 })

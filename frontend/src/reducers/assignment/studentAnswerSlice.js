@@ -11,13 +11,15 @@ export const studentAnswerSlice = splitApi.injectEndpoints({
                     method: 'POST',
                     body,
                 }
-            }
+            },
+            invalidatesTags: ['Assignment']
         }),
         getAssignments: build.query({
             query: () => ({
                 url: `${BASE_URL}/assignments`,
                 method: 'GET'
-            })
+            }),
+            providesTags: ['Assignment']
         }),
         updateAssignment: build.mutation({
             query(assignment) {
@@ -26,7 +28,8 @@ export const studentAnswerSlice = splitApi.injectEndpoints({
                     method: 'PUT',
                     body: assignment,
                 }
-            }
+            },
+            invalidatesTags: ['Assignment']
         })
     })
 })
