@@ -41,5 +41,5 @@ If not using Docker, you need to edit the package.json in /frontend folder, to c
 `Email:` johnsnow@bcit.ca
 `Password:` zengks123
 
-`Email:` johnsnow@bcit.ca
+`Email:` davosdavid@bcit.ca
 `Password:` zengks123
